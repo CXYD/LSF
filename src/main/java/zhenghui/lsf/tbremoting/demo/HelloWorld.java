@@ -33,7 +33,9 @@ public class HelloWorld {
         //建立一个连接
         Client client = ClientManager.getImpl().get("test", "localhost:1234");
         //同步发送请求 并得到结果
-        Object r = client.invokeWithSync("hello", new RequestControlImpl(
+        Message message = new Message();
+        message.setName("zhenghui");
+        Object r = client.invokeWithSync(message, new RequestControlImpl(
                 timeoutMs));
         System.out.println("the return is:" + r);
     }
@@ -43,18 +45,18 @@ public class HelloWorld {
      *
      * @author tianxiang
      */
-    class MyProcessor implements RequestProcessor<String> {
+    class MyProcessor implements RequestProcessor<Message> {
 
         @Override
-        public Class<String> interest() {
-            return String.class;
+        public Class<Message> interest() {
+            return Message.class;
         }
 
         //处理接收到的请求
         @Override
-        public void handleRequest(String appRequest, AppResponseOutput respOut) {
+        public void handleRequest(Message appRequest, AppResponseOutput respOut) {
             //写出数据到客户端
-            respOut.write("nihao,james");
+            respOut.write("I received the message.the name is " + appRequest.getName());
         }
 
         //处理请求的线程池，不能返回为null，否则报错
@@ -65,7 +67,7 @@ public class HelloWorld {
 
         //线程池抛出异常时此方法被执行
         @Override
-        public void onRejectedExecutionException(String appRequest,
+        public void onRejectedExecutionException(Message appRequest,
                                                  AppResponseOutput respOut) {
         }
     }
