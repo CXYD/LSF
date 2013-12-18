@@ -1,6 +1,8 @@
 package zhenghui.lsf.metadata;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -38,6 +40,14 @@ public class ServiceMetadata implements Serializable {
      * 不需要序列化
      */
     private transient Object target;
+
+    /**
+     * 发布的方式，用来支持多种rpc协议
+     *
+     * key为发布的RPC协议的关键字，统一为大写，例如HSF、HTTP和XFIRE
+     * value为Properties，用于进行RPC协议的一些特殊配置
+     */
+    private Map<String, Properties> exporters = new HashMap<String, Properties>();
 
     public String getVersion() {
         return version;
@@ -85,5 +95,17 @@ public class ServiceMetadata implements Serializable {
      */
     public String getUniqueName() {
         return new StringBuffer(interfaceName).append(":").append(version).toString();
+    }
+
+    public Map<String, Properties> getExporters() {
+        return exporters;
+    }
+
+    public void setExporters(Map<String, Properties> exporters) {
+        this.exporters = exporters;
+    }
+
+    public void addExporter(String key,Properties properties){
+        exporters.put(key,properties);
     }
 }

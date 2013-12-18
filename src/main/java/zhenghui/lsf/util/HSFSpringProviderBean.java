@@ -5,6 +5,7 @@ import org.springframework.beans.factory.InitializingBean;
 import zhenghui.lsf.constant.CommonConstant;
 import zhenghui.lsf.metadata.ServiceMetadata;
 
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -85,6 +86,10 @@ public class HSFSpringProviderBean implements InitializingBean {
             errorMsg.append("真实的服务对象[").append(target);
             errorMsg.append("]没有实现指定接口[").append(serviceInterface).append("].");
             invalidDeclaration(errorMsg.toString());
+        }
+        // 检查服务的发布方式，如未配置则为默认方式
+        if (metadata.getExporters().size() == 0) {
+            metadata.addExporter("DEFAULT", new Properties());
         }
     }
 
