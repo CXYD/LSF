@@ -19,7 +19,7 @@ public interface RPCProtocolTemplateService {
      * @param metadata 服务元信息
      * @throws Exception 抛出异常
      */
-    public void registerProvider(String protocol,ServiceMetadata metadata) throws HSFException;
+    public void registerProvider(ServiceMetadata metadata) throws HSFException;
 
     /**
      * 调用是否需要目标地址

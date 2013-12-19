@@ -1,9 +1,12 @@
 package zhenghui.lsf.util;
 
 import com.taobao.remoting.TRConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import zhenghui.lsf.constant.CommonConstant;
 import zhenghui.lsf.metadata.ServiceMetadata;
+import zhenghui.lsf.process.ProcessService;
 
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -12,41 +15,52 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Created with IntelliJ IDEA.
  * User: zhenghui
  * Date: 13-12-1
- * Time: ÏÂÎç4:07
- * Ìá¹©¸øSpringÊ¹ÓÃµÄ·¢²¼spring beanÎªHSF ServiceµÄbean
+ * Time: ä¸‹åˆ4:07
+ * æä¾›ç»™Springä½¿ç”¨çš„å‘å¸ƒspring beanä¸ºHSF Serviceçš„bean
  */
 public class HSFSpringProviderBean implements InitializingBean {
 
+    private Logger logger = LoggerFactory.getLogger(ProcessService.class);
+
     private ServiceMetadata metadata = new ServiceMetadata();
 
+    private ProcessService processService;
+
     /**
-     * ³õÊ¼»¯±êÊ¶
+     * åˆå§‹åŒ–æ ‡è¯†
      */
     private AtomicBoolean inited=new AtomicBoolean(false);
 
-    private void init(){
-        // ±ÜÃâ±»³õÊ¼»¯¶à´Î
+    private void init() throws Exception{
+        // é¿å…è¢«åˆå§‹åŒ–å¤šæ¬¡
         if(!inited.compareAndSet(false, true)){
             return;
         }
         checkConfig();
+        try {
+            processService.publish(metadata);
+            logger.warn("æ¥å£[" + metadata.getInterfaceName() + "]ç‰ˆæœ¬[" + metadata.getVersion() + "]å‘å¸ƒä¸ºHSFæœåŠ¡æˆåŠŸï¼");
+        } catch (Exception e) {
+            logger.error("æ¥å£[" + metadata.getInterfaceName() + "]ç‰ˆæœ¬[" + metadata.getVersion() + "]å‘å¸ƒä¸ºHSFæœåŠ¡å¤±è´¥", e);
+            throw e;
+        }
     }
 
     public HSFSpringProviderBean(){
         metadata.setVersion("1.0.0");
-        metadata.setGroup("HSF"); // ·şÎñËùÊôµÄ×é±ğ, Ä¬ÈÏµÄ×é±ğÃû³ÆÎªHSF
-//        metadata.setSupportAsyncall("false"); // Ä¬ÈÏ²»Ö§³ÖÒì²½µ÷ÓÃ
-        metadata.addProperty(TRConstants.TIMEOUT_TYPE_KEY, "3000"); // Ä¬ÈÏ¿Í»§¶Ëµ÷ÓÃ³¬Ê±Ê±¼ä£º3s
-        metadata.addProperty(TRConstants.IDLE_TIMEOUT_KEY, "600"); // Ä¬ÈÏµÄ¿Í»§¶ËÁ¬½Ó¿ÕÏĞ³¬Ê±Ê±¼ä£º600Ãë
+        metadata.setGroup("HSF"); // æœåŠ¡æ‰€å±çš„ç»„åˆ«, é»˜è®¤çš„ç»„åˆ«åç§°ä¸ºHSF
+//        metadata.setSupportAsyncall("false"); // é»˜è®¤ä¸æ”¯æŒå¼‚æ­¥è°ƒç”¨
+        metadata.addProperty(TRConstants.TIMEOUT_TYPE_KEY, "3000"); // é»˜è®¤å®¢æˆ·ç«¯è°ƒç”¨è¶…æ—¶æ—¶é—´ï¼š3s
+        metadata.addProperty(TRConstants.IDLE_TIMEOUT_KEY, "600"); // é»˜è®¤çš„å®¢æˆ·ç«¯è¿æ¥ç©ºé—²è¶…æ—¶æ—¶é—´ï¼š600ç§’
         metadata.addProperty(TRConstants.SERIALIZE_TYPE_KEY,
-                CommonConstant.HESSIAN_SERIALIZE); // ĞòÁĞ»¯ÀàĞÍ£¬Ä¬ÈÏÎªHESSIAN
+                CommonConstant.HESSIAN_SERIALIZE); // åºåˆ—åŒ–ç±»å‹ï¼Œé»˜è®¤ä¸ºHESSIAN
 
         metadata.addProperty(CommonConstant.CLIENTRETRYCONNECTIONTIMES_KEY, "3");
         metadata.addProperty(CommonConstant.CLIENTRETRYCONNECTIONTIMEOUT_KEY, "1000");
     }
 
     /**
-     * ¼ì²éÒµÎñÅäÖÃ
+     * æ£€æŸ¥ä¸šåŠ¡é…ç½®
      */
     private void checkConfig(){
         String serviceInterface = metadata.getInterfaceName();
@@ -56,40 +70,36 @@ public class HSFSpringProviderBean implements InitializingBean {
 
         StringBuilder errorMsg = new StringBuilder();
         if(target == null){
-            errorMsg.append("Î´ÅäÖÃĞèÒª·¢²¼Îª·şÎñµÄObject£¬·şÎñÃûÎª: ").append(metadata.getUniqueName());
+            errorMsg.append("æœªé…ç½®éœ€è¦å‘å¸ƒä¸ºæœåŠ¡çš„Objectï¼ŒæœåŠ¡åä¸º: ").append(metadata.getUniqueName());
             invalidDeclaration(errorMsg.toString());
         }
         if (!CommonConstant.HESSIAN_SERIALIZE.equals(serializeType)
                 && !CommonConstant.JAVA_SERIALIZE.equals(serializeType)) {
-            errorMsg.append("²»¿ÉÊ¶±ğµÄĞòÁĞ»¯ÀàĞÍ[").append(serializeType).append("].");
+            errorMsg.append("ä¸å¯è¯†åˆ«çš„åºåˆ—åŒ–ç±»å‹[").append(serializeType).append("].");
             invalidDeclaration(errorMsg.toString());
         }
 
         Class interfaceClass = null;
 
-        //ÅĞ¶ÏÊÇ·ñ´æÔÚ
+        //åˆ¤æ–­æ˜¯å¦å­˜åœ¨
         try {
             interfaceClass = Class.forName(serviceInterface);
         } catch (ClassNotFoundException e) {
-            errorMsg.append("ProviderBeanÖĞÖ¸¶¨µÄ½Ó¿ÚÀà²»´æÔÚ[");
+            errorMsg.append("ProviderBeanä¸­æŒ‡å®šçš„æ¥å£ç±»ä¸å­˜åœ¨[");
             errorMsg.append(serviceInterface).append("].");
             invalidDeclaration(errorMsg.toString());
         }
-        //ÅĞ¶ÏÊÇ·ñÎª½Ó¿Ú
+        //åˆ¤æ–­æ˜¯å¦ä¸ºæ¥å£
         if(!interfaceClass.isInterface()){
-            errorMsg.append("ProviderBeanÖĞÖ¸¶¨µÄ·şÎñÀàĞÍ²»ÊÇ½Ó¿Ú[");
+            errorMsg.append("ProviderBeanä¸­æŒ‡å®šçš„æœåŠ¡ç±»å‹ä¸æ˜¯æ¥å£[");
             errorMsg.append(serviceInterface).append("].");
             invalidDeclaration(errorMsg.toString());
         }
-        //ÅĞ¶Ï¶ÔÓ¦µÄtargetÊµÏÖÀà¶ÔÓ¦µÄ½Ó¿Ú
+        //åˆ¤æ–­å¯¹åº”çš„targetå®ç°ç±»å¯¹åº”çš„æ¥å£
         if(!interfaceClass.isAssignableFrom(target.getClass())){
-            errorMsg.append("ÕæÊµµÄ·şÎñ¶ÔÏó[").append(target);
-            errorMsg.append("]Ã»ÓĞÊµÏÖÖ¸¶¨½Ó¿Ú[").append(serviceInterface).append("].");
+            errorMsg.append("çœŸå®çš„æœåŠ¡å¯¹è±¡[").append(target);
+            errorMsg.append("]æ²¡æœ‰å®ç°æŒ‡å®šæ¥å£[").append(serviceInterface).append("].");
             invalidDeclaration(errorMsg.toString());
-        }
-        // ¼ì²é·şÎñµÄ·¢²¼·½Ê½£¬ÈçÎ´ÅäÖÃÔòÎªÄ¬ÈÏ·½Ê½
-        if (metadata.getExporters().size() == 0) {
-            metadata.addExporter("DEFAULT", new Properties());
         }
     }
 
@@ -103,30 +113,34 @@ public class HSFSpringProviderBean implements InitializingBean {
     }
 
     /**
-     * ÉèÖÃ½Ó¿ÚÃû
+     * è®¾ç½®æ¥å£å
      */
     public void setServiceInterface(String serviceInterface) {
         metadata.setInterfaceName(serviceInterface);
     }
 
     /**
-     * ÉèÖÃ½Ó¿ÚµÄÊµÏÖÀà
+     * è®¾ç½®æ¥å£çš„å®ç°ç±»
      */
     public void setTarget(Object target) {
         metadata.setTarget(target);
     }
 
     /**
-     * ÉèÖÃ·şÎñ°æ±¾ºÅ
+     * è®¾ç½®æœåŠ¡ç‰ˆæœ¬å·
      */
     public void setServiceVersion(String serviceVersion) {
         metadata.setVersion(serviceVersion);
     }
 
     /**
-     * ÉèÖÃĞòÁĞ»¯ÀàĞÍ
+     * è®¾ç½®åºåˆ—åŒ–ç±»å‹
      */
     public void setSerializeType(String serializeType) {
         metadata.addProperty(TRConstants.SERIALIZE_TYPE_KEY, serializeType);
+    }
+
+    public void setProcessService(ProcessService processService) {
+        this.processService = processService;
     }
 }

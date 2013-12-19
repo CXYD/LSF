@@ -3,26 +3,20 @@ package zhenghui.lsf.rpc.service.impl;
 import zhenghui.lsf.domain.HSFRequest;
 import zhenghui.lsf.exception.HSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
-import zhenghui.lsf.rpc.service.RPCProtocolService;
 import zhenghui.lsf.rpc.service.RPCProtocolTemplateService;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * User: zhenghui
  * Date: 13-12-18
  * Time: 下午5:06
  */
-public class RPCProtocolTemplateServiceImpl implements RPCProtocolTemplateService {
+public class RPCProtocolTemplateComponent implements RPCProtocolTemplateService {
 
-
-    private Map<String, RPCProtocolService> rpcServices=new HashMap<String, RPCProtocolService>();
 
     @Override
-    public void registerProvider(String protocol, ServiceMetadata metadata) throws HSFException {
-        rpcServices.get(protocol).registerProvider(metadata);
+    public void registerProvider(ServiceMetadata metadata) throws HSFException {
     }
 
     @Override

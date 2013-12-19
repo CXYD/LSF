@@ -5,38 +5,38 @@ package zhenghui.lsf.constant;
  * Created with IntelliJ IDEA.
  * User: zhenghui
  * Date: 13-12-1
- * Time: ÏÂÎç5:15
- * ³£Á¿¶¨Òå
+ * Time: ä¸‹åˆ5:15
+ * å¸¸é‡å®šä¹‰
  */
 public class CommonConstant {
 
     /**
-     * ĞòÁĞ»¯ÀàĞÍ
+     * åºåˆ—åŒ–ç±»å‹
      */
     public static final String SERIALZETYPE_KEY = "SERIALZETYPE";
 
     /**
-     * HessianĞòÁĞ»¯
+     * Hessianåºåˆ—åŒ–
      */
     public static final String HESSIAN_SERIALIZE = "hessian";
 
     /**
-     * Hessian2ĞòÁĞ»¯
+     * Hessian2åºåˆ—åŒ–
      */
     public static final String HESSIAN2_SERIALIZE = "hessian2";
 
     /**
-     * JavaĞòÁĞ»¯
+     * Javaåºåˆ—åŒ–
      */
     public static final String JAVA_SERIALIZE = "java";
 
     /**
-     * ¿Í»§¶Ë×î´óÖØÊÔ»ñÈ¡Á¬½Ó´ÎÊıKey
+     * å®¢æˆ·ç«¯æœ€å¤§é‡è¯•è·å–è¿æ¥æ¬¡æ•°Key
      */
     public static final String CLIENTRETRYCONNECTIONTIMES_KEY = "CLIENTRETRYCONNECTIONTIMES";
 
     /**
-     * ¿Í»§¶ËÖØÊÔ»ñÈ¡Á¬½ÓµÄ³¬Ê±Ê±¼äKey
+     * å®¢æˆ·ç«¯é‡è¯•è·å–è¿æ¥çš„è¶…æ—¶æ—¶é—´Key
      */
     public static final String CLIENTRETRYCONNECTIONTIMEOUT_KEY = "CLIENTRETRYCONNECTIONTIMEOUT";
 

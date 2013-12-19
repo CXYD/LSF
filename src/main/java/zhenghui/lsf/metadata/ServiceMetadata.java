@@ -1,53 +1,43 @@
 package zhenghui.lsf.metadata;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 /**
  * Created with IntelliJ IDEA.
  * User: zhenghui
  * Date: 13-12-1
- * Time: ÏÂÎç5:06
- * HSF·şÎñµÄÔªÊı¾İĞÅÏ¢£¬°üÀ¨ÁËÔªÊı¾İĞÅÏ¢±¾ÉíµÄÃèÊö£¬ÒÔ¼°·şÎñĞÅÏ¢µÄ·¢²¼Óë¶©ÔÄ
+ * Time: ä¸‹åˆ5:06
+ * HSFæœåŠ¡çš„å…ƒæ•°æ®ä¿¡æ¯ï¼ŒåŒ…æ‹¬äº†å…ƒæ•°æ®ä¿¡æ¯æœ¬èº«çš„æè¿°ï¼Œä»¥åŠæœåŠ¡ä¿¡æ¯çš„å‘å¸ƒä¸è®¢é˜…
  */
 public class ServiceMetadata implements Serializable {
 
     /**
-     * ·şÎñ°æ±¾ºÅ
+     * æœåŠ¡ç‰ˆæœ¬å·
      */
     private String version;
 
     /**
-     * ·Ö×é
+     * åˆ†ç»„
      */
     private String group;
 
     /**
-     * ÊôĞÔ¿â,·ÅÖÃÒ»Ğ©ÓëtbremotingÏà¹ØµÄÊôĞÔÖµ.
-     * ±ÈÈç·ÅÖÃ ¿Í»§¶Ëµ÷ÓÃ³¬Ê±Ê±¼ä,¿Í»§¶ËÁ¬½Ó¿ÕÏĞ³¬Ê±Ê±¼ä,ĞòÁĞ»¯·½Ê½µÈµÈ.
+     * å±æ€§åº“,æ”¾ç½®ä¸€äº›ä¸tbremotingç›¸å…³çš„å±æ€§å€¼.
+     * æ¯”å¦‚æ”¾ç½® å®¢æˆ·ç«¯è°ƒç”¨è¶…æ—¶æ—¶é—´,å®¢æˆ·ç«¯è¿æ¥ç©ºé—²è¶…æ—¶æ—¶é—´,åºåˆ—åŒ–æ–¹å¼ç­‰ç­‰.
      */
     private Properties serviceProps = new Properties();
 
     /**
-     * ½Ó¿ÚÃû
+     * æ¥å£å
      */
     private String interfaceName;
 
     /**
-     * ½Ó¿Ú¶ÔÓÚµÄÊµÏÖÀà
-     * ²»ĞèÒªĞòÁĞ»¯
+     * æ¥å£å¯¹äºçš„å®ç°ç±»
+     * ä¸éœ€è¦åºåˆ—åŒ–
      */
     private transient Object target;
-
-    /**
-     * ·¢²¼µÄ·½Ê½£¬ÓÃÀ´Ö§³Ö¶àÖÖrpcĞ­Òé
-     *
-     * keyÎª·¢²¼µÄRPCĞ­ÒéµÄ¹Ø¼ü×Ö£¬Í³Ò»Îª´óĞ´£¬ÀıÈçHSF¡¢HTTPºÍXFIRE
-     * valueÎªProperties£¬ÓÃÓÚ½øĞĞRPCĞ­ÒéµÄÒ»Ğ©ÌØÊâÅäÖÃ
-     */
-    private Map<String, Properties> exporters = new HashMap<String, Properties>();
 
     public String getVersion() {
         return version;
@@ -90,22 +80,11 @@ public class ServiceMetadata implements Serializable {
     }
 
     /**
-     * Î¨Ò»±êÊ¶
-     * ½Ó¿Ú:°æ±¾
+     * å”¯ä¸€æ ‡è¯†
+     * æ¥å£:ç‰ˆæœ¬
      */
     public String getUniqueName() {
         return new StringBuffer(interfaceName).append(":").append(version).toString();
     }
 
-    public Map<String, Properties> getExporters() {
-        return exporters;
-    }
-
-    public void setExporters(Map<String, Properties> exporters) {
-        this.exporters = exporters;
-    }
-
-    public void addExporter(String key,Properties properties){
-        exporters.put(key,properties);
-    }
 }

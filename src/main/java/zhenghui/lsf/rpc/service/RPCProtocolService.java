@@ -6,10 +6,11 @@ import zhenghui.lsf.metadata.ServiceMetadata;
 
 /**
  * User: zhenghui
- * Date: 13-12-18
- * Time: 下午5:16
+ * Date: 13-12-19
+ * Time: 下午5:13
  */
 public interface RPCProtocolService {
+
     /**
      * 注册服务提供者
      *

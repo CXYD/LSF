@@ -11,7 +11,7 @@ public class HSFException extends Exception {
 
     /**
      * <p>
-     *
+     * <p/>
      * 平台无关的分行符,从sun的<code>PrintStream</code>那里抄来的
      * </p>
      */
@@ -29,11 +29,8 @@ public class HSFException extends Exception {
     private final String hsfExceptionDesc;
 
     /**
-     *
-     * @param code
-     *            HSF Exception Code ,HSF-004 etc.
-     * @param desc
-     *            description of HSF Exception
+     * @param code HSF Exception Code ,HSF-004 etc.
+     * @param desc description of HSF Exception
      * @param e
      */
     public HSFException(String hsfExceptionCode, String hsfExceptionDesc,
@@ -44,7 +41,6 @@ public class HSFException extends Exception {
     }
 
     /**
-     *
      * @param code
      * @param e
      */
@@ -52,14 +48,14 @@ public class HSFException extends Exception {
         this(hsfExceptionCode, null, e);
     }
 
-    public HSFException(String hsfExceptionCode,String hsfExceptionDesc){
+    public HSFException(String hsfExceptionCode, String hsfExceptionDesc) {
         super(hsfExceptionCode);
         this.reasonAndSolution = hsfExceptionCode;
         this.hsfExceptionDesc = hsfExceptionDesc;
     }
 
     public HSFException(String hsfExceptionCode) {
-        this(hsfExceptionCode,"");
+        this(hsfExceptionCode, "");
     }
 
     public String toString() {
