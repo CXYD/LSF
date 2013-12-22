@@ -9,7 +9,7 @@ import zhenghui.lsf.MessageService;
  * Date: 13-12-22
  * Time: 下午1:45
  */
-public class TestServer {
+public class Demo {
 
     public static void main(String[] args){
 
