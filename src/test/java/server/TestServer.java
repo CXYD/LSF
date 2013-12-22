@@ -1,9 +1,8 @@
 package server;
 
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import zhenghui.lsf.util.HSFSpringProviderBean;
+import zhenghui.lsf.MessageService;
 
 /**
  * User: zhenghui
@@ -14,11 +13,13 @@ public class TestServer {
 
     public static void main(String[] args){
 
-        ApplicationContext context = new ClassPathXmlApplicationContext(
-                new String[] {"biz/lsf-server.xml"});
-        BeanFactory factory = (BeanFactory) context;
+        ApplicationContext factory = new ClassPathXmlApplicationContext(
+                new String[] {"biz/lsf-demo.xml"});
 
-        HSFSpringProviderBean hsfSpringProviderBean = (HSFSpringProviderBean) factory.getBean("hsfSpringProviderBean");
+//        HSFSpringProviderBean hsfSpringProviderBean = (HSFSpringProviderBean) factory.getBean("hsfSpringProviderBean");
+
+        MessageService messageService = (MessageService) factory.getBean("messageServiceLSF");
+        messageService.sayHello("puding");
 
     }
 }

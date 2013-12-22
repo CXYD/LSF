@@ -1,10 +1,10 @@
 package zhenghui.lsf.rpc.tbremoting;
 
-import zhenghui.lsf.datastore.service.DataStoreService;
 import zhenghui.lsf.domain.HSFRequest;
 import zhenghui.lsf.exception.HSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
 import zhenghui.lsf.rpc.service.RPCProtocolService;
+import zhenghui.lsf.rpc.tbremoting.service.InvokeService;
 import zhenghui.lsf.rpc.tbremoting.service.ProviderServer;
 
 /**
@@ -17,6 +17,8 @@ public class TBRemotingRPCProtocolComponent implements RPCProtocolService {
     private final Object onlyOnceSync = new Object();
 
     private ProviderServer providerServer;
+
+    private InvokeService invokeService;
 
     @Override
     public void registerProvider(ServiceMetadata metadata) throws HSFException {
@@ -36,27 +38,17 @@ public class TBRemotingRPCProtocolComponent implements RPCProtocolService {
     }
 
     @Override
-    public boolean isNeedTarget(ServiceMetadata metadata, HSFRequest request) {
-        return false;  
-    }
-
-    @Override
-    public boolean validTarget(String targetURL) {
-        return false;  
-    }
-
-    @Override
     public Object invoke(HSFRequest request, ServiceMetadata metadata, String targetURL) throws HSFException {
-        return null;  
-    }
+//        final String serviceName=metadata.getUniqueName();
 
-    @Override
-    public String getType() {
-        return null;  
+        return invokeService.invoke(request, metadata, targetURL, null);
     }
 
     public void setProviderServer(ProviderServer providerServer) {
         this.providerServer = providerServer;
     }
 
+    public void setInvokeService(InvokeService invokeService) {
+        this.invokeService = invokeService;
+    }
 }

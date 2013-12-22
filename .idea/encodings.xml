@@ -4,11 +4,14 @@
     <file url="file://$PROJECT_DIR$/src/main/java/zhenghui/lsf/constant/CommonConstant.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/zhenghui/lsf/metadata/ServiceMetadata.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/zhenghui/lsf/util/HSFSpringProviderBean.java" charset="UTF-8" />
+    <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.app.spring/1.4.8.9/hsf.app.spring-1.4.8.9-sources.jar!/com/taobao/hsf/app/spring/util/HSFSpringConsumerBean.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.app.spring/1.4.8.9/hsf.app.spring-1.4.8.9-sources.jar!/com/taobao/hsf/app/spring/util/HSFSpringProviderBean.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.services/1.4.9/hsf.services-1.4.9-sources.jar!/com/taobao/hsf/exception/HSFException.java" charset="GBK" />
+    <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.services/1.4.9/hsf.services-1.4.9-sources.jar!/com/taobao/hsf/model/metadata/ServiceMetadata.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsf/domain/HSFRequest.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsf/domain/HSFResponse.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/ProtocolThreadLocal.java" charset="GBK" />
+    <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/app/spring/util/HSFSpringConsumerBean.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/datastore/component/ThreadNotSafeDataStoreComponent.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/datastore/service/DataStoreService.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/exception/HSFException.java" charset="GBK" />
@@ -16,14 +19,21 @@
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/model/metadata/service/MetadataService.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/process/component/ProcessComponent.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/process/service/ProcessService.java" charset="GBK" />
+    <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/route/component/AddressComponent.java" charset="GBK" />
+    <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/route/service/AddressService.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/rpc/common/RPCProtocolTemplateComponent.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/rpc/service/RPCProtocolService.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/rpc/service/RPCProtocolTemplateService.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/rpc/tbremoting/TBRemotingRPCProtocolComponent.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/rpc/tbremoting/provider/NIOProviderServer.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/rpc/tbremoting/provider/ProviderProcessor.java" charset="GBK" />
+    <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/tbremoting/invoke/component/SyncInvokeComponent.java" charset="GBK" />
+    <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/tbremoting/service/InvokeService.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/tbremoting/service/ProviderServer.java" charset="GBK" />
+    <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/util/HSFConstants.java" charset="GBK" />
+    <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.unit/1.0.1/hsf.unit-1.0.1-sources.jar!/com/taobao/hsfunit/util/HSFServiceTargetUtil.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/ju/julottery-client/1.0.3/julottery-client-1.0.3-sources.jar!/com/taobao/ju/lottery/service/LotteryService.java" charset="GBK" />
+    <file url="jar://$MAVEN_REPOSITORY$/com/taobao/remoting/network.core/1.1.3/network.core-1.1.3-sources.jar!/com/taobao/remoting/RequestControl.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/remoting/network.core/1.1.3/network.core-1.1.3-sources.jar!/com/taobao/remoting/RequestProcessor.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/remoting/network.core/1.1.3/network.core-1.1.3-sources.jar!/com/taobao/remoting/TRConstants.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/remoting/network.core/1.1.3/network.core-1.1.3-sources.jar!/com/taobao/remoting/impl/DefaultMsgListener.java" charset="GBK" />

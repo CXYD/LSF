@@ -20,23 +20,6 @@ public interface RPCProtocolService {
     public void registerProvider(ServiceMetadata metadata) throws HSFException;
 
     /**
-     * 调用是否需要目标地址
-     *
-     * @param metadata
-     * @param request
-     * @return 是否需要目标地址
-     */
-    public boolean isNeedTarget(ServiceMetadata metadata,HSFRequest request);
-
-    /**
-     * 校验目标地址的可用性
-     *
-     * @param targetURL
-     * @return 目标地址是否可用，如不可用，外部将自动进行其他的选址动作
-     */
-    public boolean validTarget(String targetURL);
-
-    /**
      * 具体的远程调用，已提供目标地址
      * @param request
      * @param metadata
@@ -49,10 +32,4 @@ public interface RPCProtocolService {
                          ServiceMetadata metadata,
                          String targetURL) throws HSFException;
 
-    /**
-     * RPC协议的类型，统一大写
-     *
-     * @return String
-     */
-    public String getType();
 }

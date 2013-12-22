@@ -1,7 +1,7 @@
-package zhenghui.lsf.rpc.tbremoting.service.provider;
+package zhenghui.lsf.rpc.tbremoting.service.impl;
 
-import com.alibaba.common.lang.diagnostic.Profiler;
 import com.taobao.remoting.RequestProcessor;
+import com.taobao.remoting.util.DIYExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zhenghui.lsf.datastore.service.DataStoreService;
@@ -14,7 +14,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * User: zhenghui
@@ -41,7 +40,7 @@ public class ProviderProcessor implements RequestProcessor<HSFRequest> {
 
     @Override
     public Executor getExecutor() {
-        return (ThreadPoolExecutor) dataStoreService.get(NIOProviderServer.COMPONENT_NAME, NIOProviderServer.THREADPOOL_STORE_KEY);
+        return DIYExecutor.getInstance();
     }
 
     @Override
@@ -65,10 +64,6 @@ public class ProviderProcessor implements RequestProcessor<HSFRequest> {
             return hsfResponse;
         }
 
-        ServiceMetadata metadata = getServiceMetadata(this.dataStoreService, serviceName);
-
-        Profiler.reset();
-        Profiler.start("HSF服务开始执行...");
         Method appServiceMethod;
         try {
             StringBuilder methodKeyBuffer=new StringBuilder();

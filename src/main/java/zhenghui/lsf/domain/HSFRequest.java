@@ -17,8 +17,7 @@ public class HSFRequest implements Serializable {
 
     private String[] methodArgSigs;
 
-    // 由于要处理父类、子类问题，因此将参数对象这个地方改为另外的方式来序列化
-    private transient Object[] methodArgs;
+    private Object[] methodArgs;
 
     private String targetServiceUniqueName;
 

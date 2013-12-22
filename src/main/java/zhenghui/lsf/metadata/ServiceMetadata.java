@@ -39,6 +39,11 @@ public class ServiceMetadata implements Serializable {
      */
     private transient Object target;
 
+    /**
+     * todo
+     */
+    private Class<?> ifClazz;
+
     public String getVersion() {
         return version;
     }
@@ -87,4 +92,11 @@ public class ServiceMetadata implements Serializable {
         return new StringBuffer(interfaceName).append(":").append(version).toString();
     }
 
+    public Class<?> getIfClazz() {
+        return ifClazz;
+    }
+
+    public void setIfClazz(Class<?> ifClazz) {
+        this.ifClazz = ifClazz;
+    }
 }
