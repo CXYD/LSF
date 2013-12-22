@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import zhenghui.lsf.exception.HSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
 import zhenghui.lsf.process.ProcessService;
+import zhenghui.lsf.rpc.service.RPCProtocolService;
 import zhenghui.lsf.rpc.service.RPCProtocolTemplateService;
 
 import java.util.Map;
@@ -19,14 +20,16 @@ public class ProcessComponent implements ProcessService {
 
     private Logger logger = LoggerFactory.getLogger(ProcessService.class);
 
-    private RPCProtocolTemplateService protocolTemplateService;
+//    private RPCProtocolTemplateService protocolTemplateService;
+
+    private RPCProtocolService rpcProtocolService;
 
 
     @Override
     public void publish(ServiceMetadata metadata) throws HSFException {
 
         try {
-            protocolTemplateService.registerProvider(metadata);
+            rpcProtocolService.registerProvider(metadata);
         } catch (HSFException e) {
             logger.error("发布HSF服务时出现错误，请确认服务：" + metadata.getUniqueName() + "的rpc属性的配置！");
             throw e;
@@ -38,10 +41,14 @@ public class ProcessComponent implements ProcessService {
 
     @Override
     public Object consume(ServiceMetadata metadata) throws HSFException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
-    public void setProtocolTemplateService(RPCProtocolTemplateService protocolTemplateService) {
-        this.protocolTemplateService = protocolTemplateService;
+//    public void setProtocolTemplateService(RPCProtocolTemplateService protocolTemplateService) {
+//        this.protocolTemplateService = protocolTemplateService;
+//    }
+
+    public void setRpcProtocolService(RPCProtocolService rpcProtocolService) {
+        this.rpcProtocolService = rpcProtocolService;
     }
 }

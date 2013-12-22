@@ -35,6 +35,8 @@ public class NIOProviderServer implements ProviderServer {
     private static final int HSF_SERVER_MIN_POOL_SIZE = 1;
     private static final int HSF_SERVER_MAX_POOL_SIZE = 1;
 
+    static public final String THREADPOOL_STORE_KEY="_threadpool";
+
     private static final int HSF_SERVER_PORT = 9999;
 
     private DataStoreService dataStoreService;
@@ -63,7 +65,7 @@ public class NIOProviderServer implements ProviderServer {
             server.registerProcessor(processor);
 //            dataStoreService.put(COMPONENT_NAME, THREADPOOL_STORE_KEY, threadPool);
 //            dataStoreService.put(COMPONENT_NAME, SERVER_STORE_KEY, server);
-        } catch (RemotingException e) {
+        } catch (Exception e) {
             throw new HSFException("启动HSF服务器端错误", e);
         }
 

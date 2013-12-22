@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * User: zhenghui
@@ -28,7 +29,7 @@ public class ProviderProcessor implements RequestProcessor<HSFRequest> {
     
     @Override
     public Class<HSFRequest> interest() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return HSFRequest.class;
     }
 
     @Override
@@ -40,12 +41,12 @@ public class ProviderProcessor implements RequestProcessor<HSFRequest> {
 
     @Override
     public Executor getExecutor() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return (ThreadPoolExecutor) dataStoreService.get(NIOProviderServer.COMPONENT_NAME, NIOProviderServer.THREADPOOL_STORE_KEY);
     }
 
     @Override
     public void onRejectedExecutionException(HSFRequest appRequest, AppResponseOutput respOut) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        
     }
 
     protected HSFResponse handleRequest0(final HSFRequest hsfRequest,
