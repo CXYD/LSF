@@ -20,6 +20,7 @@ public class Demo {
 
         MessageService messageService = (MessageService) factory.getBean("messageServiceLSF");
         messageService.sayHello("puding");
+        messageService.sayHello("puding2");
 
     }
 }

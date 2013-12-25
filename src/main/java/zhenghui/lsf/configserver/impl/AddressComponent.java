@@ -5,7 +5,9 @@ import org.springframework.beans.factory.InitializingBean;
 import zhenghui.lsf.configserver.service.AddressService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -23,6 +25,11 @@ public class AddressComponent extends ZookeeperWatcher implements AddressService
     private static final int DEFAULT_TIME_OUT  = 30000;
 
     /**
+     * 服务地址cache
+     */
+    private Map<String,List<String>> serviceAddressCache = new ConcurrentHashMap<String, List<String>>();
+
+    /**
      * zk服务器的地址.
      */
     private String zkAdrress = "10.125.195.174:2181";
@@ -34,7 +41,6 @@ public class AddressComponent extends ZookeeperWatcher implements AddressService
         }
         String path = DEFAULT_SERVER_PATH  + serviceUniqueName;
         createPath(path,address);
-
     }
 
     private void init() throws Exception{
@@ -51,10 +57,11 @@ public class AddressComponent extends ZookeeperWatcher implements AddressService
             return null;
         }
         String path = DEFAULT_SERVER_PATH  + serviceUniqueName;
-        List<String> addressList = getChildren(path,true);
+        List<String> addressList = serviceAddressCache.get(path) == null ? getChildren(path,true) : serviceAddressCache.get(path);
         if(addressList == null || addressList.isEmpty()){
             return null;
         }
+        serviceAddressCache.put(path,addressList);
         return addressList.get(new Random().nextInt(addressList.size()));
     }
 
@@ -69,6 +76,6 @@ public class AddressComponent extends ZookeeperWatcher implements AddressService
 
     @Override
     protected void addressChangeHolder(String path) {
-
+        serviceAddressCache.remove(path);
     }
 }

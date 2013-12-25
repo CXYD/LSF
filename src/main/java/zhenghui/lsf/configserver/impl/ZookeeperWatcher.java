@@ -83,7 +83,8 @@ public abstract class ZookeeperWatcher implements Watcher {
             }
             //再查看子节点是否有
             String childPath = path + separator + data;
-            stat = exists(childPath,true);
+            //子节点不需要对应的watcher.因为父节点已经有针对child data change的watcher处理了
+            stat = exists(childPath,false);
             if(stat == null){
                 this.zk.create(childPath,DEFAULT_DATA.getBytes(),ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
                 logger.info("子节点创建成功.path= " + childPath);
@@ -139,17 +140,17 @@ public abstract class ZookeeperWatcher implements Watcher {
                 connectedSemaphore.countDown();
             } else if (Watcher.Event.EventType.NodeCreated == eventType) {
                 logger.info(logPrefix + "节点创建");
-                this.exists(path, true);
+//                this.exists(path, true);
                 addressChangeHolder(path);
             } else if (Watcher.Event.EventType.NodeDataChanged == eventType) {
                 logger.info(logPrefix + "节点数据更新");
-                addressChangeHolder(path);
+//                addressChangeHolder(path);
             } else if (Watcher.Event.EventType.NodeChildrenChanged == eventType) {
                 logger.info(logPrefix + "子节点变更");
                 addressChangeHolder(path);
             } else if (Watcher.Event.EventType.NodeDeleted == eventType) {
                 logger.error(logPrefix + "节点 " + path + " 被删除");
-                addressChangeHolder(path);
+//                addressChangeHolder(path);
             }
         }
         //下面可以做一些重连的工作.
