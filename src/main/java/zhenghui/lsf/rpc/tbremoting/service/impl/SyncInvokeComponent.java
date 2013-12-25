@@ -25,7 +25,7 @@ public class SyncInvokeComponent implements InvokeService {
         try {
             Client client = ClientManager.getImpl().get(
                     APPTYPE_FORREMOTING,
-                    "localhost:8888");
+                    targetURL);
             HSFResponse response = (HSFResponse) client.invokeWithSync(request,
                     new RequestControlImpl(TIME_OUT_MS));
 

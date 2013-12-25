@@ -39,9 +39,6 @@ public class ServiceMetadata implements Serializable {
      */
     private transient Object target;
 
-    /**
-     * todo
-     */
     private Class<?> ifClazz;
 
     public String getVersion() {

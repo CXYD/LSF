@@ -6,16 +6,15 @@ import zhenghui.lsf.domain.HSFRequest;
 import zhenghui.lsf.exception.HSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
 import zhenghui.lsf.process.ProcessService;
-import zhenghui.lsf.route.service.AddressService;
+import zhenghui.lsf.configserver.service.AddressService;
 import zhenghui.lsf.rpc.service.RPCProtocolService;
-import zhenghui.lsf.rpc.service.RPCProtocolTemplateService;
 
-import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Map;
-import java.util.Properties;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
 
 /**
  * User: zhenghui
@@ -34,6 +33,10 @@ public class ProcessComponent implements ProcessService {
 
     static private final int RETRY_TIMES = 3;
 
+    static private final int RCP_PORT = 8888;
+
+    static private final char COLON = ':';
+
 
     @Override
     public void publish(ServiceMetadata metadata) throws HSFException {
@@ -45,8 +48,7 @@ public class ProcessComponent implements ProcessService {
             throw e;
         }
 
-        //todo 向configserver注册服务信息
-
+        addressService.setServiceAddresses(metadata.getUniqueName(),getNetworkAddress() + COLON + RCP_PORT);
     }
 
     @Override
@@ -103,7 +105,7 @@ public class ProcessComponent implements ProcessService {
                 if (null == addressService) {
                     throw new HSFException("地址路由服务暂时不可用！");
                 }
-                targetURL = addressService.getServiceAddress(serviceName, methodName, methodArgSigs, args);
+                targetURL = addressService.getServiceAddress(serviceName);
             }
             // 如这个时候targetURL仍然为null，抛出异常
             if (isBlank(targetURL)) {
@@ -141,6 +143,37 @@ public class ProcessComponent implements ProcessService {
             throws Exception {
         if (appResp instanceof Exception) {
             throw (Exception) appResp;
+        }
+    }
+
+
+    /**
+     * 获取当前机器ip地址
+     * 据说多网卡的时候会有问题.
+     * @return
+     */
+    private String getNetworkAddress() {
+        Enumeration<NetworkInterface> netInterfaces;
+        try {
+            netInterfaces = NetworkInterface.getNetworkInterfaces();
+            InetAddress ip = null;
+            while (netInterfaces.hasMoreElements()) {
+                NetworkInterface ni = netInterfaces
+                        .nextElement();
+                Enumeration<InetAddress> addresses=ni.getInetAddresses();
+                while(addresses.hasMoreElements()){
+                    ip = addresses.nextElement();
+                    if (!ip.isLoopbackAddress()
+                            && ip.getHostAddress().indexOf(COLON) == -1) {
+                        return ip.getHostAddress();
+                    } else {
+                        continue;
+                    }
+                }
+            }
+            return "";
+        } catch (Exception e) {
+            return "";
         }
     }
 

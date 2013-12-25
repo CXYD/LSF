@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/zhenghui/lsf/constant/CommonConstant.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/zhenghui/lsf/metadata/ServiceMetadata.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/zhenghui/lsf/util/HSFSpringProviderBean.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/log4j.properties" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.app.spring/1.4.8.9/hsf.app.spring-1.4.8.9-sources.jar!/com/taobao/hsf/app/spring/util/HSFSpringConsumerBean.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.app.spring/1.4.8.9/hsf.app.spring-1.4.8.9-sources.jar!/com/taobao/hsf/app/spring/util/HSFSpringProviderBean.java" charset="GBK" />
     <file url="jar://$MAVEN_REPOSITORY$/com/taobao/hsf/hsf.services/1.4.9/hsf.services-1.4.9-sources.jar!/com/taobao/hsf/exception/HSFException.java" charset="GBK" />

@@ -33,7 +33,7 @@
         <property name="version" value="1.0.0"/>
     </bean>
 
-    <bean id="addressService" class="zhenghui.lsf.route.impl.AddressComponent"/>
+    <bean id="addressService" class="zhenghui.lsf.configserver.impl.AddressComponent"/>
 
     <bean id="invokeService" class="zhenghui.lsf.rpc.tbremoting.service.impl.SyncInvokeComponent"/>
 
