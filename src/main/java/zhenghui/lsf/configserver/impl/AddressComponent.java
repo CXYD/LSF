@@ -20,14 +20,12 @@ public class AddressComponent extends ZookeeperWatcher implements AddressService
 
     private AtomicBoolean inited = new AtomicBoolean(false);
 
-    private static final String DEFAULT_SERVER_PATH = "/zhenghui/lsf/address/";
-
-    private static final int DEFAULT_TIME_OUT  = 30000;
+    private static final int DEFAULT_TIME_OUT = 30000;
 
     /**
      * 服务地址cache
      */
-    private ConcurrentHashMap<String,Future<List<String>>> serviceAddressCache = new ConcurrentHashMap<String, Future<List<String>>>();
+    private ConcurrentHashMap<String, Future<List<String>>> serviceAddressCache = new ConcurrentHashMap<String, Future<List<String>>>();
 
     /**
      * zk服务器的地址.
@@ -36,42 +34,42 @@ public class AddressComponent extends ZookeeperWatcher implements AddressService
 
     @Override
     public void setServiceAddresses(String serviceUniqueName, String address) {
-        if(StringUtils.isBlank(serviceUniqueName)){
+        if (StringUtils.isBlank(serviceUniqueName)) {
             return;
         }
-        String path = DEFAULT_SERVER_PATH  + serviceUniqueName;
-        createPath(path,address);
+        String path = DEFAULT_SERVER_PATH + separator + serviceUniqueName;
+        createPath(path, address);
     }
 
-    private void init() throws Exception{
+    private void init() throws Exception {
         // 避免被初始化多次
         if (!inited.compareAndSet(false, true)) {
             return;
         }
-        createConnection(zkAdrress,DEFAULT_TIME_OUT);
+        createConnection(zkAdrress, DEFAULT_TIME_OUT);
     }
 
     @Override
     public String getServiceAddress(String serviceUniqueName) throws ExecutionException, InterruptedException {
-        if(StringUtils.isBlank(serviceUniqueName)){
+        if (StringUtils.isBlank(serviceUniqueName)) {
             return null;
         }
-        final String path = DEFAULT_SERVER_PATH  + serviceUniqueName;
+        final String path = DEFAULT_SERVER_PATH + separator + serviceUniqueName;
 
         //为了保证强一致性.
         FutureTask<List<String>> future = new FutureTask(new Callable<List<String>>() {
             public List<String> call() {
-                return getChildren(path,true);
+                return getChildren(path, true);
             }
         });
 
         Future<List<String>> old = serviceAddressCache.putIfAbsent(path, future);
         List<String> addressList;
-        if(old == null) {
+        if (old == null) {
             future.run();
             addressList = future.get();
         } else {
-            addressList =  old.get();
+            addressList = old.get();
         }
 
         return addressList.get(new Random().nextInt(addressList.size()));

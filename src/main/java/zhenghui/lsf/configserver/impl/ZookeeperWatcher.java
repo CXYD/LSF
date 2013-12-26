@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zhenghui.lsf.exception.HSFException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -25,7 +26,18 @@ public abstract class ZookeeperWatcher implements Watcher {
 
     private ZooKeeper zk;
 
-    private static final String DEFAULT_DATA = "zhenghui";
+    protected static final String DEFAULT_SERVER_PATH = "/zhenghui/lsf/address";
+
+    /**
+     * 节点path的后缀
+     */
+    private static final String DEFAULT_PATH_SUFFIX = "zhenghui";
+
+    protected static final String separator = "/";
+
+    private static final String charset_utf8 = "utf-8";
+
+    private Stat stat = new Stat();
 
     /**
      * 用来记录watch被调用次数
@@ -67,8 +79,6 @@ public abstract class ZookeeperWatcher implements Watcher {
         }
     }
 
-    private static final String separator = "/";
-
     /**
      * 创建对应的节点.
      */
@@ -78,17 +88,12 @@ public abstract class ZookeeperWatcher implements Watcher {
             Stat stat = exists(path, true);
             //如果不存在,则创建
             if(stat == null){
-                this.zk.create(path,DEFAULT_DATA.getBytes(),ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+                this.zk.create(path,"zhenghui".getBytes(),ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
                 logger.info("父节点创建成功.path= " + path);
             }
-            //再查看子节点是否有
-            String childPath = path + separator + data;
-            //子节点不需要对应的watcher.因为父节点已经有针对child data change的watcher处理了
-            stat = exists(childPath,false);
-            if(stat == null){
-                this.zk.create(childPath,DEFAULT_DATA.getBytes(),ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
-                logger.info("子节点创建成功.path= " + childPath);
-            }
+            String childPath = path + separator + DEFAULT_PATH_SUFFIX;
+            this.zk.create(childPath,data.getBytes(charset_utf8),ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+            logger.info("子节点创建成功.path= " + childPath);
             return true;
         } catch (Exception e) {
             logger.error("zhenghui.lsf.configserver.impl.ZookeeperWatcher.createPath",e);
@@ -111,7 +116,16 @@ public abstract class ZookeeperWatcher implements Watcher {
      */
     protected List<String> getChildren(String path, boolean needWatch) {
         try {
-            return this.zk.getChildren(path, needWatch);
+            List<String> newServerList = new ArrayList<String>();
+            List<String> subList = this.zk.getChildren(path, needWatch);
+            if(subList != null && !subList.isEmpty()){
+                for (String subNode : subList) {
+                    // 获取每个子节点下关联的server地址
+                    byte[] data = zk.getData(path + separator + subNode, false, stat);
+                    newServerList.add(new String(data, charset_utf8));
+                }
+            }
+            return newServerList;
         } catch (Exception e) {
             logger.error("zhenghui.lsf.configserver.impl.ZookeeperWatcher.getChildren", e);
             return null;
@@ -138,19 +152,12 @@ public abstract class ZookeeperWatcher implements Watcher {
             if (Watcher.Event.EventType.None == eventType) {
                 logger.info(logPrefix + "成功连接上ZK服务器");
                 connectedSemaphore.countDown();
-            } else if (Watcher.Event.EventType.NodeCreated == eventType) {
-                logger.info(logPrefix + "节点创建");
-//                this.exists(path, true);
-                addressChangeHolder(path);
-            } else if (Watcher.Event.EventType.NodeDataChanged == eventType) {
-                logger.info(logPrefix + "节点数据更新");
-//                addressChangeHolder(path);
-            } else if (Watcher.Event.EventType.NodeChildrenChanged == eventType) {
+            }  else if (Watcher.Event.EventType.NodeChildrenChanged == eventType) {
                 logger.info(logPrefix + "子节点变更");
-                addressChangeHolder(path);
-            } else if (Watcher.Event.EventType.NodeDeleted == eventType) {
-                logger.error(logPrefix + "节点 " + path + " 被删除");
-//                addressChangeHolder(path);
+                //如果是 DEFAULT_SERVER_PATH下面的接口变动,则说明是新增接口,不需要触发holder
+                if(!path.equals(DEFAULT_SERVER_PATH)){
+                    addressChangeHolder(path);
+                }
             }
         }
         //下面可以做一些重连的工作.
