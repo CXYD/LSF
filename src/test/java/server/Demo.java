@@ -11,7 +11,7 @@ import zhenghui.lsf.MessageService;
  */
 public class Demo {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws InterruptedException {
 
         ApplicationContext factory = new ClassPathXmlApplicationContext(
                 new String[] {"biz/lsf-demo.xml"});
@@ -19,6 +19,7 @@ public class Demo {
 //        HSFSpringProviderBean hsfSpringProviderBean = (HSFSpringProviderBean) factory.getBean("hsfSpringProviderBean");
 
         MessageService messageService = (MessageService) factory.getBean("messageServiceLSF");
+        Thread.sleep(1000);
         messageService.sayHello("puding");
         messageService.sayHello("puding2");
 

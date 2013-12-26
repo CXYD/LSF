@@ -1,5 +1,7 @@
 package zhenghui.lsf.configserver.service;
 
+import java.util.concurrent.ExecutionException;
+
 /**
  * User: zhenghui
  * Date: 13-12-22
@@ -21,6 +23,6 @@ public interface AddressService {
      * @param serviceUniqueName
      * @return String 当没有可用的服务地址的时候，将会返回null
      */
-    public String getServiceAddress(String serviceUniqueName);
+    public String getServiceAddress(String serviceUniqueName) throws ExecutionException, InterruptedException;
 
 }

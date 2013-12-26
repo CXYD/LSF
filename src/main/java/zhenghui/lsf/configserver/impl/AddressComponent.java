@@ -7,7 +7,7 @@ import zhenghui.lsf.configserver.service.AddressService;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -27,7 +27,7 @@ public class AddressComponent extends ZookeeperWatcher implements AddressService
     /**
      * 服务地址cache
      */
-    private Map<String,List<String>> serviceAddressCache = new ConcurrentHashMap<String, List<String>>();
+    private ConcurrentHashMap<String,Future<List<String>>> serviceAddressCache = new ConcurrentHashMap<String, Future<List<String>>>();
 
     /**
      * zk服务器的地址.
@@ -52,16 +52,28 @@ public class AddressComponent extends ZookeeperWatcher implements AddressService
     }
 
     @Override
-    public String getServiceAddress(String serviceUniqueName) {
+    public String getServiceAddress(String serviceUniqueName) throws ExecutionException, InterruptedException {
         if(StringUtils.isBlank(serviceUniqueName)){
             return null;
         }
-        String path = DEFAULT_SERVER_PATH  + serviceUniqueName;
-        List<String> addressList = serviceAddressCache.get(path) == null ? getChildren(path,true) : serviceAddressCache.get(path);
-        if(addressList == null || addressList.isEmpty()){
-            return null;
+        final String path = DEFAULT_SERVER_PATH  + serviceUniqueName;
+
+        //为了保证强一致性.
+        FutureTask<List<String>> future = new FutureTask(new Callable<List<String>>() {
+            public List<String> call() {
+                return getChildren(path,true);
+            }
+        });
+
+        Future<List<String>> old = serviceAddressCache.putIfAbsent(path, future);
+        List<String> addressList;
+        if(old == null) {
+            future.run();
+            addressList = future.get();
+        } else {
+            addressList =  old.get();
         }
-        serviceAddressCache.put(path,addressList);
+
         return addressList.get(new Random().nextInt(addressList.size()));
     }
 

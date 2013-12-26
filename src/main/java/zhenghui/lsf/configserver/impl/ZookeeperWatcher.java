@@ -86,7 +86,7 @@ public abstract class ZookeeperWatcher implements Watcher {
             //子节点不需要对应的watcher.因为父节点已经有针对child data change的watcher处理了
             stat = exists(childPath,false);
             if(stat == null){
-                this.zk.create(childPath,DEFAULT_DATA.getBytes(),ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+                this.zk.create(childPath,DEFAULT_DATA.getBytes(),ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
                 logger.info("子节点创建成功.path= " + childPath);
             }
             return true;
