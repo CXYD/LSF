@@ -1,6 +1,6 @@
 package zhenghui.lsf.process;
 
-import zhenghui.lsf.exception.HSFException;
+import zhenghui.lsf.exception.LSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
 
 /**
@@ -15,9 +15,9 @@ public interface ProcessService {
      *
      * @param metadata 服务模型对象
      *
-     * @throws HSFException 当服务发布失败时，抛出此异常
+     * @throws zhenghui.lsf.exception.LSFException 当服务发布失败时，抛出此异常
      */
-    public void publish(ServiceMetadata metadata) throws HSFException;
+    public void publish(ServiceMetadata metadata) throws LSFException;
 
     /**
      * 生成调用远程HSF服务的代理<br>
@@ -26,7 +26,7 @@ public interface ProcessService {
      *
      * @param metadata 服务模型对象
      *
-     * @throws HSFException 当生成调用远程HSF服务的代理失败时，抛出此异常
+     * @throws zhenghui.lsf.exception.LSFException 当生成调用远程HSF服务的代理失败时，抛出此异常
      */
-    public Object consume(ServiceMetadata metadata) throws HSFException;
+    public Object consume(ServiceMetadata metadata) throws LSFException;
 }

@@ -1,4 +1,4 @@
-package zhenghui.lsf.rpc.tbremoting.service;
+package zhenghui.lsf.rpc.mina.service;
 
 import com.taobao.remoting.RequestControl;
 import zhenghui.lsf.domain.HSFRequest;
@@ -7,16 +7,12 @@ import zhenghui.lsf.metadata.ServiceMetadata;
 
 /**
  * User: zhenghui
- * Date: 13-12-22
- * Time: 下午5:10
+ * Date: 13-12-27
+ * Time: 下午3:36
+ * 用mina实现的远程调用
  */
-public interface InvokeService {
+public interface MinaInvokeService {
 
-    /**
-     * 调用HSF服务
-     *
-     */
     public Object invoke(HSFRequest request, ServiceMetadata metadata,
                          String targetURL, RequestControl control) throws LSFException;
-
 }

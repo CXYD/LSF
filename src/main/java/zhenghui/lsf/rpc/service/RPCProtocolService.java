@@ -1,7 +1,7 @@
 package zhenghui.lsf.rpc.service;
 
 import zhenghui.lsf.domain.HSFRequest;
-import zhenghui.lsf.exception.HSFException;
+import zhenghui.lsf.exception.LSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
 
 /**
@@ -17,7 +17,7 @@ public interface RPCProtocolService {
      * @param metadata 服务元信息
      * @throws Exception 抛出异常
      */
-    public void registerProvider(ServiceMetadata metadata) throws HSFException;
+    public void registerProvider(ServiceMetadata metadata) throws LSFException;
 
     /**
      * 具体的远程调用，已提供目标地址
@@ -26,10 +26,10 @@ public interface RPCProtocolService {
      * @param targetURL
      *
      * @return Object
-     * @throws HSFException
+     * @throws zhenghui.lsf.exception.LSFException
      */
     public Object invoke(HSFRequest request,
                          ServiceMetadata metadata,
-                         String targetURL) throws HSFException;
+                         String targetURL) throws LSFException;
 
 }

@@ -5,7 +5,7 @@ package zhenghui.lsf.exception;
  * Date: 13-12-18
  * Time: 下午4:36
  */
-public class HSFException extends Exception {
+public class LSFException extends Exception {
 
     static final long serialVersionUID = -3387516993121229948L;
 
@@ -33,7 +33,7 @@ public class HSFException extends Exception {
      * @param desc description of HSF Exception
      * @param e
      */
-    public HSFException(String hsfExceptionCode, String hsfExceptionDesc,
+    public LSFException(String hsfExceptionCode, String hsfExceptionDesc,
                         Throwable e) {
         super(hsfExceptionDesc, e);
         this.reasonAndSolution = hsfExceptionCode;
@@ -44,17 +44,17 @@ public class HSFException extends Exception {
      * @param code
      * @param e
      */
-    public HSFException(String hsfExceptionCode, Throwable e) {
+    public LSFException(String hsfExceptionCode, Throwable e) {
         this(hsfExceptionCode, null, e);
     }
 
-    public HSFException(String hsfExceptionCode, String hsfExceptionDesc) {
+    public LSFException(String hsfExceptionCode, String hsfExceptionDesc) {
         super(hsfExceptionCode);
         this.reasonAndSolution = hsfExceptionCode;
         this.hsfExceptionDesc = hsfExceptionDesc;
     }
 
-    public HSFException(String hsfExceptionCode) {
+    public LSFException(String hsfExceptionCode) {
         this(hsfExceptionCode, "");
     }
 

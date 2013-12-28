@@ -4,6 +4,8 @@ package zhenghui.lsf.datastore.service;
  * User: zhenghui
  * Date: 13-12-19
  * Time: 下午7:29
+ *
+ * 做一些简单的缓存
  */
 public interface DataStoreService {
 

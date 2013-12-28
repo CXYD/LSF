@@ -4,7 +4,7 @@ import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import zhenghui.lsf.exception.HSFException;
+import zhenghui.lsf.exception.LSFException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public abstract class ZookeeperWatcher implements Watcher {
      * 创建zk连接
      *
      */
-    protected void createConnection(String connectString, int sessionTimeout) throws HSFException {
+    protected void createConnection(String connectString, int sessionTimeout) throws LSFException {
         //先关闭连接
         releaseConnection();
         try {
@@ -62,7 +62,7 @@ public abstract class ZookeeperWatcher implements Watcher {
             connectedSemaphore.await();
         } catch (Exception e) {
             logger.error("zhenghui.lsf.configserver.impl.AddressComponent.createConnection error");
-            throw new HSFException("zhenghui.lsf.configserver.impl.ZookeeperWatcher.createConnection error", e);
+            throw new LSFException("zhenghui.lsf.configserver.impl.ZookeeperWatcher.createConnection error", e);
         }
     }
 

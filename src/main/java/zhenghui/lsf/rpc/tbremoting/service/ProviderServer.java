@@ -2,7 +2,7 @@ package zhenghui.lsf.rpc.tbremoting.service;
 
 import zhenghui.lsf.domain.HSFRequest;
 import zhenghui.lsf.domain.HSFResponse;
-import zhenghui.lsf.exception.HSFException;
+import zhenghui.lsf.exception.LSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
 
 import java.util.Map;
@@ -14,9 +14,9 @@ import java.util.Map;
  */
 public interface ProviderServer {
 
-    public void startHSFServer() throws HSFException;
+    public void startHSFServer() throws LSFException;
 
-    public void stopHSFServer() throws HSFException;
+    public void stopHSFServer() throws LSFException;
 
     public void addWorker(String serviceName, Object workerPOJO);
 
@@ -30,5 +30,5 @@ public interface ProviderServer {
 
     public boolean isStarted();
 
-    public HSFResponse handleRequest(HSFRequest request) throws HSFException;
+    public HSFResponse handleRequest(HSFRequest request) throws LSFException;
 }

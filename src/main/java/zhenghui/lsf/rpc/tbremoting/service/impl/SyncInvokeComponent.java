@@ -4,7 +4,7 @@ import com.taobao.remoting.*;
 import com.taobao.remoting.impl.RequestControlImpl;
 import zhenghui.lsf.domain.HSFRequest;
 import zhenghui.lsf.domain.HSFResponse;
-import zhenghui.lsf.exception.HSFException;
+import zhenghui.lsf.exception.LSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
 import zhenghui.lsf.rpc.tbremoting.service.InvokeService;
 
@@ -21,7 +21,7 @@ public class SyncInvokeComponent implements InvokeService {
     public static final long TIME_OUT_MS = 3000;
 
     @Override
-    public Object invoke(HSFRequest request, ServiceMetadata metadata, String targetURL, RequestControl control) throws HSFException {
+    public Object invoke(HSFRequest request, ServiceMetadata metadata, String targetURL, RequestControl control) throws LSFException {
         try {
             Client client = ClientManager.getImpl().get(
                     APPTYPE_FORREMOTING,
@@ -30,18 +30,18 @@ public class SyncInvokeComponent implements InvokeService {
                     new RequestControlImpl(TIME_OUT_MS));
 
             if (response.isError()) {
-                throw new HSFException(response.getErrorMsg(), response
+                throw new LSFException(response.getErrorMsg(), response
                         .getErrorMsg());
             }
             return response.getAppResponse();
         }
         // 超时
         catch (TimeoutException e) {
-            throw new HSFException("time out exception", e);
+            throw new LSFException("time out exception", e);
         } catch (RemotingException e) {
-            throw new HSFException("", e);
+            throw new LSFException("", e);
         } catch (InterruptedException e) {
-            throw new HSFException("", e);
+            throw new LSFException("", e);
         }
     }
 

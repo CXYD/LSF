@@ -3,7 +3,7 @@ package zhenghui.lsf.process.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zhenghui.lsf.domain.HSFRequest;
-import zhenghui.lsf.exception.HSFException;
+import zhenghui.lsf.exception.LSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
 import zhenghui.lsf.process.ProcessService;
 import zhenghui.lsf.configserver.service.AddressService;
@@ -39,11 +39,11 @@ public class ProcessComponent implements ProcessService {
 
 
     @Override
-    public void publish(ServiceMetadata metadata) throws HSFException {
+    public void publish(ServiceMetadata metadata) throws LSFException {
 
         try {
             rpcProtocolService.registerProvider(metadata);
-        } catch (HSFException e) {
+        } catch (LSFException e) {
             logger.error("发布HSF服务时出现错误，请确认服务：" + metadata.getUniqueName() + "的rpc属性的配置！");
             throw e;
         }
@@ -52,21 +52,18 @@ public class ProcessComponent implements ProcessService {
     }
 
     @Override
-    public Object consume(ServiceMetadata metadata) throws HSFException {
+    public Object consume(ServiceMetadata metadata) throws LSFException {
         // 生成调用远程HSF服务的代理
-        Class<?> interfaceClass=null;
+        Class<?> interfaceClass;
         try {
             interfaceClass=Class.forName(metadata.getInterfaceName());
         }
         catch (ClassNotFoundException e) {
-            throw new HSFException("无法加载HSF服务接口类，请确定此类是否存在："+metadata.getInterfaceName());
+            throw new LSFException("无法加载HSF服务接口类，请确定此类是否存在："+metadata.getInterfaceName());
         }
         InvocationHandler handler=new HSFServiceProxy(metadata);
-        Object proxyObj= Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{interfaceClass}, handler);
 
-        // todo 向configserver订阅服务信息
-
-        return proxyObj;
+        return Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{interfaceClass}, handler);
     }
 
     public void setAddressService(AddressService addressService) {
@@ -103,13 +100,13 @@ public class ProcessComponent implements ProcessService {
             // 当target不为null，或者重试次数已到达最大重试次数时，退出寻找可用的目标服务地址的过程
             for (int i = 0; (isBlank(targetURL)) && (i < RETRY_TIMES); i++) {
                 if (null == addressService) {
-                    throw new HSFException("地址路由服务暂时不可用！");
+                    throw new LSFException("地址路由服务暂时不可用！");
                 }
                 targetURL = addressService.getServiceAddress(serviceName);
             }
             // 如这个时候targetURL仍然为null，抛出异常
             if (isBlank(targetURL)) {
-                throw new HSFException("未找到需要调用的服务的目标地址", "需要调用的目标服务为："+ serviceName);
+                throw new LSFException("未找到需要调用的服务的目标地址", "需要调用的目标服务为："+ serviceName);
             }
             Object appResponse = rpcProtocolService.invoke(request, metadata, targetURL);
             checkAppRespForException(appResponse);
@@ -150,13 +147,12 @@ public class ProcessComponent implements ProcessService {
     /**
      * 获取当前机器ip地址
      * 据说多网卡的时候会有问题.
-     * @return
      */
     private String getNetworkAddress() {
         Enumeration<NetworkInterface> netInterfaces;
         try {
             netInterfaces = NetworkInterface.getNetworkInterfaces();
-            InetAddress ip = null;
+            InetAddress ip;
             while (netInterfaces.hasMoreElements()) {
                 NetworkInterface ni = netInterfaces
                         .nextElement();
@@ -166,8 +162,6 @@ public class ProcessComponent implements ProcessService {
                     if (!ip.isLoopbackAddress()
                             && ip.getHostAddress().indexOf(COLON) == -1) {
                         return ip.getHostAddress();
-                    } else {
-                        continue;
                     }
                 }
             }

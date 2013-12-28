@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import zhenghui.lsf.datastore.service.DataStoreService;
 import zhenghui.lsf.domain.HSFRequest;
 import zhenghui.lsf.domain.HSFResponse;
-import zhenghui.lsf.exception.HSFException;
+import zhenghui.lsf.exception.LSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
 import zhenghui.lsf.rpc.tbremoting.service.ProviderServer;
 
@@ -48,7 +48,7 @@ public class NIOProviderServer implements ProviderServer {
     private RequestProcessor<HSFRequest> processor;
 
     @Override
-    public void startHSFServer() throws HSFException {
+    public void startHSFServer() throws LSFException {
 
         try {
             ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
@@ -65,13 +65,13 @@ public class NIOProviderServer implements ProviderServer {
 //            dataStoreService.put(COMPONENT_NAME, THREADPOOL_STORE_KEY, threadPool);
 //            dataStoreService.put(COMPONENT_NAME, SERVER_STORE_KEY, server);
         } catch (Exception e) {
-            throw new HSFException("启动HSF服务器端错误", e);
+            throw new LSFException("启动HSF服务器端错误", e);
         }
 
     }
 
     @Override
-    public void stopHSFServer() throws HSFException {
+    public void stopHSFServer() throws LSFException {
 
     }
 
@@ -148,7 +148,7 @@ public class NIOProviderServer implements ProviderServer {
     }
 
     @Override
-    public HSFResponse handleRequest(HSFRequest request) throws HSFException {
+    public HSFResponse handleRequest(HSFRequest request) throws LSFException {
         return null;
     }
 

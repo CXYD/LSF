@@ -1,7 +1,7 @@
 package zhenghui.lsf.rpc.service;
 
 import zhenghui.lsf.domain.HSFRequest;
-import zhenghui.lsf.exception.HSFException;
+import zhenghui.lsf.exception.LSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
 
 import java.lang.reflect.Method;
@@ -19,7 +19,7 @@ public interface RPCProtocolTemplateService {
      * @param metadata 服务元信息
      * @throws Exception 抛出异常
      */
-    public void registerProvider(ServiceMetadata metadata) throws HSFException;
+    public void registerProvider(ServiceMetadata metadata) throws LSFException;
 
     /**
      * 调用是否需要目标地址
@@ -45,11 +45,11 @@ public interface RPCProtocolTemplateService {
      * @param method 需要调用的服务的方法对象
      * @param args 调用方法的参数
      * @return Object 远程HSF服务执行后的响应对象
-     * @throws HSFException 调用远程服务时出现超时、网络、业务异常时抛出
+     * @throws zhenghui.lsf.exception.LSFException 调用远程服务时出现超时、网络、业务异常时抛出
      * @throws Exception 业务异常
      */
     public Object invokeWithMethodObject(String protocol,ServiceMetadata metadata, Method method, Object[] args)
-            throws HSFException,Exception;
+            throws LSFException,Exception;
 
     /**
      * 基于非反射方式调用HSF服务
@@ -60,9 +60,9 @@ public interface RPCProtocolTemplateService {
      * @param parameterTypes 方法参数类型
      * @param args 调用方法的参数
      * @return Object 远程HSF服务执行后的响应对象
-     * @throws HSFException 调用远程服务时出现超时、网络、业务异常时抛出
+     * @throws zhenghui.lsf.exception.LSFException 调用远程服务时出现超时、网络、业务异常时抛出
      * @throws Exception 业务异常
      */
     public Object invokeWithMethodInfos(String protocol,ServiceMetadata metadata, String methodName, String[] parameterTypes, Object[] args)
-            throws HSFException,Exception;
+            throws LSFException,Exception;
 }
