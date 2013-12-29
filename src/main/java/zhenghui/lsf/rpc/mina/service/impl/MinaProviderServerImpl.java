@@ -52,7 +52,7 @@ public class MinaProviderServerImpl implements MinaProviderServer {
         }
 
         try{
-            IoAcceptor acceptor = new NioSocketAcceptor();
+            final IoAcceptor acceptor = new NioSocketAcceptor(Runtime.getRuntime().availableProcessors());
             // 创建接收数据的过滤器
             DefaultIoFilterChainBuilder chain = acceptor.getFilterChain();
             // 序列化方式就用默认的
@@ -63,6 +63,15 @@ public class MinaProviderServerImpl implements MinaProviderServer {
 
             // 绑定端口,启动服务器
             acceptor.bind(new InetSocketAddress(SERVER_PORT));
+
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                public void run() {
+                    acceptor.unbind();
+                    isStart.set(Boolean.FALSE);
+                    logger.warn("服务器已关闭");
+                }
+            });
+
         }catch (Exception e){
             throw new LSFException("启动服务出错.",e);
         }
