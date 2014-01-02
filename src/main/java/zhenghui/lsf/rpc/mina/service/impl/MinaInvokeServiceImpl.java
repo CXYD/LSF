@@ -10,6 +10,8 @@ import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import zhenghui.lsf.domain.HSFRequest;
 import zhenghui.lsf.exception.LSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
+import zhenghui.lsf.mina.client.Client;
+import zhenghui.lsf.mina.client.ClientManager;
 import zhenghui.lsf.rpc.mina.service.MinaInvokeService;
 
 import java.net.InetSocketAddress;
@@ -22,29 +24,13 @@ import java.net.SocketAddress;
  */
 public class MinaInvokeServiceImpl implements MinaInvokeService {
 
-    private LSFMinaInvokeHandler lsfMinaInvokeHandler;
+    private static final long TIME_OUT_MS = 3000;
 
     @Override
     public Object invoke(HSFRequest request, ServiceMetadata metadata, String targetURL, RequestControl control) throws LSFException {
         try{
-            IoConnector connector = new NioSocketConnector();
-            DefaultIoFilterChainBuilder chain = connector.getFilterChain();
-            ProtocolCodecFilter filter = new ProtocolCodecFilter(new ObjectSerializationCodecFactory());
-            chain.addLast("objectFilter", filter);
-            // 设定客户端的消息处理器:一个ObjectMinaClientHandler对象,
-//            LSFMinaInvokeHandler handler = new LSFMinaInvokeHandler();
-            connector.setHandler(lsfMinaInvokeHandler);
-
-            // 连结到服务器:
-            ConnectFuture cf = connector.connect(parseAddress(targetURL));
-            // 等待连接创建完成
-            cf.awaitUninterruptibly();
-            cf.getSession().write(request);
-            // 等待连接断开
-//            cf.getSession().getCloseFuture().awaitUninterruptibly();
-            // 客户端断开链接，释放资源
-//            connector.dispose();
-            return lsfMinaInvokeHandler.get();
+            Client client = ClientManager.getInstance().getClient(targetURL);
+            return client.invoke(request,TIME_OUT_MS);
         } catch (Exception e){
             throw new LSFException("zhenghui.lsf.rpc.mina.service.impl.MinaInvokeServiceImpl.invoke error",e);
         }
@@ -57,7 +43,4 @@ public class MinaInvokeServiceImpl implements MinaInvokeService {
         return new InetSocketAddress(ss[0],Integer.parseInt(ss[1]));
     }
 
-    public void setLsfMinaInvokeHandler(LSFMinaInvokeHandler lsfMinaInvokeHandler) {
-        this.lsfMinaInvokeHandler = lsfMinaInvokeHandler;
-    }
 }

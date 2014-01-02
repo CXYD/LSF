@@ -55,21 +55,24 @@ public class AddressComponent extends ZookeeperWatcher implements AddressService
             return null;
         }
         final String path = DEFAULT_SERVER_PATH + separator + serviceUniqueName;
-
-        //为了保证强一致性.
-        FutureTask<List<String>> future = new FutureTask(new Callable<List<String>>() {
-            public List<String> call() {
-                return getChildren(path, true);
-            }
-        });
-
-        Future<List<String>> old = serviceAddressCache.putIfAbsent(path, future);
         List<String> addressList;
-        if (old == null) {
-            future.run();
-            addressList = future.get();
+
+        Future<List<String>> future = serviceAddressCache.get(path);
+        if(future == null){
+            FutureTask<List<String>> futureTask = new FutureTask(new Callable<List<String>>() {
+                public List<String> call() {
+                    return getChildren(path, true);
+                }
+            });
+            Future<List<String>> old = serviceAddressCache.putIfAbsent(path, futureTask);
+            if (old == null) {
+                futureTask.run();
+                addressList = futureTask.get();
+            } else {
+                addressList = old.get();
+            }
         } else {
-            addressList = old.get();
+            addressList = future.get();
         }
 
         return addressList.get(new Random().nextInt(addressList.size()));

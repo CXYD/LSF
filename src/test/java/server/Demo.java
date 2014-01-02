@@ -22,6 +22,5 @@ public class Demo {
         Thread.sleep(1000);
         messageService.sayHello("puding");
         messageService.sayHello("puding2");
-
     }
 }
