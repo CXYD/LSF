@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="530cb728-0761-4aff-9e78-ef5de7a31aad" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\workspace\LSF\.idea\.name" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\LSF\.idea\compiler.xml" afterPath="" />
       <change type="DELETED" beforePath="D:\workspace\LSF\.idea\copyright\profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\LSF\.idea\encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\LSF\.idea\misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\LSF\.idea\modules.xml" afterPath="" />
       <change type="DELETED" beforePath="D:\workspace\LSF\.idea\scopes\scope_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\LSF\.idea\uiDesigner.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\workspace\LSF\.idea\vcs.xml" afterPath="" />
       <change type="DELETED" beforePath="D:\workspace\LSF\.idea\workspace.xml" afterPath="" />
     </list>
     <list id="2733ab50-ae7b-4f45-9e45-4b4792243548" name="New changelist" comment="">
@@ -18,7 +11,7 @@
     </list>
     <ignored path="LSF.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="530cb728-0761-4aff-9e78-ef5de7a31aad" time="1388641963211" ignored="false" />
+    <file path="/Dummy.txt" changelist="530cb728-0761-4aff-9e78-ef5de7a31aad" time="1388642346857" ignored="false" />
     <file path="/Server.java" changelist="530cb728-0761-4aff-9e78-ef5de7a31aad" time="1385702741393" ignored="false" />
     <file path="/Client.java" changelist="530cb728-0761-4aff-9e78-ef5de7a31aad" time="1388631866229" ignored="false" />
     <file path="/pom.xml" changelist="530cb728-0761-4aff-9e78-ef5de7a31aad" time="1388403639128" ignored="false" />
@@ -308,7 +301,6 @@
     <file path="/ResponseFuture.java" changelist="530cb728-0761-4aff-9e78-ef5de7a31aad" time="1388632484806" ignored="false" />
     <file path="/ResponseFutureImpl.java" changelist="530cb728-0761-4aff-9e78-ef5de7a31aad" time="1388482675249" ignored="false" />
     <file path="/DefaultResponseFuture.java" changelist="530cb728-0761-4aff-9e78-ef5de7a31aad" time="1388482122823" ignored="false" />
-    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="530cb728-0761-4aff-9e78-ef5de7a31aad" time="1388642054068" ignored="false" />
     <file path="$PROJECT_DIR$/../juwliserver/branches/20131231_35206_1/juwliserver/juwl-iserver-core/src/main/java/com/taobao/juwl/biz/splite/manager/SpliteActivityManager.java" changelist="530cb728-0761-4aff-9e78-ef5de7a31aad" time="1388641908542" ignored="false" />
     <file path="$PROJECT_DIR$/../juwliserver/branches/20131231_35206_1/juwliserver/juwl-iserver-core/src/main/java/com/taobao/juwl/biz/splite/service/impl/GgkGameGeoServiceImpl.java" changelist="530cb728-0761-4aff-9e78-ef5de7a31aad" time="1388641917118" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -1108,7 +1100,11 @@
       <created>1388633073019</created>
       <updated>1388633073019</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="删除.idea文件">
+      <created>1388642348196</created>
+      <updated>1388642348196</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1206,7 +1202,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="去除tbremoting部分" />
+    <option name="LAST_COMMIT_MESSAGE" value="删除.idea文件" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1231,6 +1227,7 @@
     <MESSAGE value="新增jvm shutdown hook" />
     <MESSAGE value="对mina做了一下封装.支持简单的同步调用." />
     <MESSAGE value="去除tbremoting部分" />
+    <MESSAGE value="删除.idea文件" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
