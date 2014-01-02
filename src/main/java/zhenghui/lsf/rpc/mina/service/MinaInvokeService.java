@@ -1,6 +1,5 @@
 package zhenghui.lsf.rpc.mina.service;
 
-import com.taobao.remoting.RequestControl;
 import zhenghui.lsf.domain.HSFRequest;
 import zhenghui.lsf.exception.LSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
@@ -14,5 +13,5 @@ import zhenghui.lsf.metadata.ServiceMetadata;
 public interface MinaInvokeService {
 
     public Object invoke(HSFRequest request, ServiceMetadata metadata,
-                         String targetURL, RequestControl control) throws LSFException;
+                         String targetURL) throws LSFException;
 }

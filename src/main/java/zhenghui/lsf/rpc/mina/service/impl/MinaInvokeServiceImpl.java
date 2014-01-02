@@ -1,12 +1,5 @@
 package zhenghui.lsf.rpc.mina.service.impl;
 
-import com.taobao.remoting.RequestControl;
-import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
-import org.apache.mina.core.future.ConnectFuture;
-import org.apache.mina.core.service.IoConnector;
-import org.apache.mina.filter.codec.ProtocolCodecFilter;
-import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
-import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import zhenghui.lsf.domain.HSFRequest;
 import zhenghui.lsf.exception.LSFException;
 import zhenghui.lsf.metadata.ServiceMetadata;
@@ -27,7 +20,7 @@ public class MinaInvokeServiceImpl implements MinaInvokeService {
     private static final long TIME_OUT_MS = 3000;
 
     @Override
-    public Object invoke(HSFRequest request, ServiceMetadata metadata, String targetURL, RequestControl control) throws LSFException {
+    public Object invoke(HSFRequest request, ServiceMetadata metadata, String targetURL) throws LSFException {
         try{
             Client client = ClientManager.getInstance().getClient(targetURL);
             return client.invoke(request,TIME_OUT_MS);

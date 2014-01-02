@@ -1,6 +1,5 @@
 package zhenghui.lsf.util;
 
-import com.taobao.remoting.TRConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -8,7 +7,6 @@ import zhenghui.lsf.constant.CommonConstant;
 import zhenghui.lsf.metadata.ServiceMetadata;
 import zhenghui.lsf.process.ProcessService;
 
-import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -50,10 +48,6 @@ public class HSFSpringProviderBean implements InitializingBean {
         metadata.setVersion("1.0.0");
         metadata.setGroup("HSF"); // 服务所属的组别, 默认的组别名称为HSF
 //        metadata.setSupportAsyncall("false"); // 默认不支持异步调用
-        metadata.addProperty(TRConstants.TIMEOUT_TYPE_KEY, "3000"); // 默认客户端调用超时时间：3s
-        metadata.addProperty(TRConstants.IDLE_TIMEOUT_KEY, "600"); // 默认的客户端连接空闲超时时间：600秒
-        metadata.addProperty(TRConstants.SERIALIZE_TYPE_KEY,
-                CommonConstant.HESSIAN_SERIALIZE); // 序列化类型，默认为HESSIAN
 
         metadata.addProperty(CommonConstant.CLIENTRETRYCONNECTIONTIMES_KEY, "3");
         metadata.addProperty(CommonConstant.CLIENTRETRYCONNECTIONTIMEOUT_KEY, "1000");
@@ -65,17 +59,10 @@ public class HSFSpringProviderBean implements InitializingBean {
     private void checkConfig(){
         String serviceInterface = metadata.getInterfaceName();
         Object target = metadata.getTarget();
-        String serializeType = metadata
-                .getProperty(TRConstants.SERIALIZE_TYPE_KEY);
 
         StringBuilder errorMsg = new StringBuilder();
         if(target == null){
             errorMsg.append("未配置需要发布为服务的Object，服务名为: ").append(metadata.getUniqueName());
-            invalidDeclaration(errorMsg.toString());
-        }
-        if (!CommonConstant.HESSIAN_SERIALIZE.equals(serializeType)
-                && !CommonConstant.JAVA_SERIALIZE.equals(serializeType)) {
-            errorMsg.append("不可识别的序列化类型[").append(serializeType).append("].");
             invalidDeclaration(errorMsg.toString());
         }
 
@@ -131,13 +118,6 @@ public class HSFSpringProviderBean implements InitializingBean {
      */
     public void setServiceVersion(String serviceVersion) {
         metadata.setVersion(serviceVersion);
-    }
-
-    /**
-     * 设置序列化类型
-     */
-    public void setSerializeType(String serializeType) {
-        metadata.addProperty(TRConstants.SERIALIZE_TYPE_KEY, serializeType);
     }
 
     public void setProcessService(ProcessService processService) {

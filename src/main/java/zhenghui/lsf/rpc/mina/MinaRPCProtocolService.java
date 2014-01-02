@@ -34,7 +34,7 @@ public class MinaRPCProtocolService implements RPCProtocolService {
 
     @Override
     public Object invoke(HSFRequest request, ServiceMetadata metadata, String targetURL) throws LSFException {
-        return minaInvokeService.invoke(request,metadata,targetURL,null);
+        return minaInvokeService.invoke(request,metadata,targetURL);
     }
 
     public void setMinaProviderServer(MinaProviderServer minaProviderServer) {

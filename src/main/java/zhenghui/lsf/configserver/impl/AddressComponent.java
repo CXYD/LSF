@@ -1,11 +1,9 @@
 package zhenghui.lsf.configserver.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import zhenghui.lsf.configserver.service.AddressService;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -34,9 +32,6 @@ public class AddressComponent extends ZookeeperWatcher implements AddressService
 
     @Override
     public void setServiceAddresses(String serviceUniqueName, String address) {
-        if (StringUtils.isBlank(serviceUniqueName)) {
-            return;
-        }
         String path = DEFAULT_SERVER_PATH + separator + serviceUniqueName;
         createPath(path, address);
     }
@@ -51,9 +46,6 @@ public class AddressComponent extends ZookeeperWatcher implements AddressService
 
     @Override
     public String getServiceAddress(String serviceUniqueName) throws ExecutionException, InterruptedException {
-        if (StringUtils.isBlank(serviceUniqueName)) {
-            return null;
-        }
         final String path = DEFAULT_SERVER_PATH + separator + serviceUniqueName;
         List<String> addressList;
 
