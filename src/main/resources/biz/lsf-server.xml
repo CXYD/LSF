@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lang="http://www.springframework.org/schema/lang"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd"
+        default-autowire="byName">
+
+    <description>
+        LSF测试.由于很多bean在服务端与客户端都被使用到了,所以demo的例子放到一起.
+    </description>
+
+    <!-- provider  bean -->
+    <bean id="hsfSpringProviderBean" class="zhenghui.lsf.util.HSFSpringProviderBean">
+        <property name="serviceInterface" value="zhenghui.lsf.MessageService"/>
+        <property name="target" ref="messageService"/>
+    </bean>
+    <bean id="processService" class="zhenghui.lsf.process.impl.ProcessComponent"/>
+    <bean id="dataStoreService" class="zhenghui.lsf.datastore.impl.ThreadNotSafeDataStoreComponent"/>
+    <bean id="messageService" class="zhenghui.lsf.MessageServiceImpl"/>
+    <bean id="addressService" class="zhenghui.lsf.configserver.impl.AddressComponent"/>
+    <bean id="rpcProtocolService" class="zhenghui.lsf.rpc.mina.MinaRPCProtocolService"/>
+    <bean id="minaProviderServer" class="zhenghui.lsf.rpc.mina.service.impl.MinaProviderServerImpl"/>
+    <bean id="lsfMinaServerHandler" class="zhenghui.lsf.rpc.mina.service.impl.LSFMinaServerHandler"/>
+
+</beans>
