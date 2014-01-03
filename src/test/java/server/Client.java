@@ -34,6 +34,6 @@ class MethodInvoke implements Runnable{
 
     @Override
     public void run() {
-        messageService.sayHello(message);
+        System.out.println(messageService.sayHello(message));;
     }
 }

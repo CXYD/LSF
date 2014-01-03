@@ -36,16 +36,11 @@ public class DefaultClient implements Client {
      */
     Cache<String,ResponseFuture> futureStore = CacheBuilder.newBuilder().maximumSize(1000).expireAfterWrite(5, TimeUnit.SECONDS).build();
 
-    /**
-     * 这里需要优化.针对同一个接口的同一个方法,只能同步顺序执行
-     * @return
-     */
     @Override
     public Object invoke(HSFRequest request, long timeoutms) {
         ResponseFuture future = new ResponseFuture();
         futureStore.put(request.getRequestId(), future);
-        String arg = (String) request.getMethodArgs()[0];
-        if(arg.equals("shaoman")){
+        if(request.getMethodArgs()[0].equals("shaoman")){
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

@@ -7,9 +7,6 @@ import zhenghui.lsf.mina.client.Client;
 import zhenghui.lsf.mina.client.ClientManager;
 import zhenghui.lsf.rpc.mina.service.MinaInvokeService;
 
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-
 /**
  * User: zhenghui
  * Date: 13-12-27
@@ -27,13 +24,6 @@ public class MinaInvokeServiceImpl implements MinaInvokeService {
         } catch (Exception e){
             throw new LSFException("zhenghui.lsf.rpc.mina.service.impl.MinaInvokeServiceImpl.invoke error",e);
         }
-    }
-
-    static private final String COLON = ":";
-
-    private SocketAddress parseAddress(String targetURL){
-        String[] ss = targetURL.split(COLON);
-        return new InetSocketAddress(ss[0],Integer.parseInt(ss[1]));
     }
 
 }

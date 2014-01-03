@@ -8,5 +8,5 @@ package zhenghui.lsf;
  */
 public interface MessageService {
 
-    void sayHello(String name);
+    String sayHello(String name);
 }

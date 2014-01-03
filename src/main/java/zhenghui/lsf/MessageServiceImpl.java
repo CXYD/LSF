@@ -10,8 +10,9 @@ import java.lang.reflect.Method;
  */
 public class MessageServiceImpl implements MessageService{
     @Override
-    public void sayHello(String name) {
+    public String sayHello(String name) {
         System.out.println("hello,"+ name);
+        return "return "+ name;
     }
 
     public static void main(String[] args) throws Exception {
