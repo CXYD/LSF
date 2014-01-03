@@ -40,13 +40,6 @@ public class DefaultClient implements Client {
     public Object invoke(HSFRequest request, long timeoutms) {
         ResponseFuture future = new ResponseFuture();
         futureStore.put(request.getRequestId(), future);
-        if(request.getMethodArgs()[0].equals("shaoman")){
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-        }
         ioSession.write(request);
         try {
             return future.get(timeoutms);
