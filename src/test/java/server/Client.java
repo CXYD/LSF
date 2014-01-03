@@ -16,8 +16,8 @@ public class Client {
 
         ApplicationContext factory = new ClassPathXmlApplicationContext(new String[] {"biz/lsf-client.xml"});
         MessageService messageService = (MessageService) factory.getBean("messageServiceLSF");
-        new MethodInvoke(messageService,"shaoman").run();
-        new MethodInvoke(messageService,"shaoman2").run();
+        new Thread(new MethodInvoke(messageService,"shaoman")).start();
+        new Thread(new MethodInvoke(messageService,"shaoman2")).start();
     }
 
 }
