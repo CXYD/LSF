@@ -15,6 +15,7 @@ import java.lang.reflect.Proxy;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.util.UUID;
 
 /**
  * User: zhenghui
@@ -94,6 +95,7 @@ public class ProcessComponent implements ProcessService {
             request.setMethodName(methodName);
             request.setMethodArgSigs(methodArgSigs);
             request.setMethodArgs(args);
+            request.setRequestId(UUID.randomUUID().toString());
 
             //先看是否有配置对应的服务地址
             String targetURL = metadata.getProperty("target");

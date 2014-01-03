@@ -20,7 +20,7 @@ public interface Client {
      * 回调的时候,设置返回
      * @param response
      */
-    public void putResponse(Object response);
+    public void putResponse(String requestId,Object response);
 
 
 }

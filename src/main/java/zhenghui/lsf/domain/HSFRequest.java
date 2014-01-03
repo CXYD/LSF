@@ -31,6 +31,11 @@ public class HSFRequest implements Serializable {
 
     private boolean isNeedReliableCallback;
 
+    /**
+     * 每次请求的标示符
+     */
+    private String requestId;
+
 
     // Public Method ------------------------------------------------------------
 
@@ -119,5 +124,13 @@ public class HSFRequest implements Serializable {
         }
         sb.append("]]");
         return sb.toString();
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
     }
 }

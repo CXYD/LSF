@@ -6,7 +6,7 @@
         default-autowire="byName">
 
     <description>
-        LSF测试.由于很多bean在服务端与客户端都被使用到了,所以demo的例子放到一起.
+        LSF测试.客户端
     </description>
 
     <bean id="processService" class="zhenghui.lsf.process.impl.ProcessComponent"/>

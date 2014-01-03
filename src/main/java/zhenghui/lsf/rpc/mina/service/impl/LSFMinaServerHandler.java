@@ -40,6 +40,7 @@ public class LSFMinaServerHandler extends IoHandlerAdapter {
         final Object[] methodArg = hsfRequest.getMethodArgs();
 
         final HSFResponse hsfResponse = new HSFResponse();
+        hsfResponse.setRequestId(hsfRequest.getRequestId());
         final Object servicePOJO = getTarget(serviceName);
 
         if (null == servicePOJO) { // 服务不存在

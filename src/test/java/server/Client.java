@@ -16,8 +16,24 @@ public class Client {
 
         ApplicationContext factory = new ClassPathXmlApplicationContext(new String[] {"biz/lsf-client.xml"});
         MessageService messageService = (MessageService) factory.getBean("messageServiceLSF");
-        Thread.sleep(1000);
-        messageService.sayHello("hello shaoman");
-        messageService.sayHello("hello shaoman2");
+        new MethodInvoke(messageService,"shaoman").run();
+        new MethodInvoke(messageService,"shaoman2").run();
+    }
+
+}
+class MethodInvoke implements Runnable{
+
+    MethodInvoke(MessageService messageService, String message) {
+        this.messageService = messageService;
+        this.message = message;
+    }
+
+    MessageService messageService;
+
+    String message;
+
+    @Override
+    public void run() {
+        messageService.sayHello(message);
     }
 }

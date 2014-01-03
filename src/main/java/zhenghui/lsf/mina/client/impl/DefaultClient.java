@@ -1,11 +1,15 @@
 package zhenghui.lsf.mina.client.impl;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import zhenghui.lsf.domain.HSFRequest;
 import zhenghui.lsf.mina.client.Client;
 import zhenghui.lsf.mina.client.response.ResponseFuture;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * User: zhenghui
@@ -18,8 +22,6 @@ public class DefaultClient implements Client {
 
     static public final String SESSION_2_CLIENT = "SESSION_2_CLIENT";
 
-    private ResponseFuture responseFuture;
-
     public DefaultClient(IoSession ioSession) {
         this.ioSession = ioSession;
         ioSession.setAttribute(SESSION_2_CLIENT,this);
@@ -27,24 +29,47 @@ public class DefaultClient implements Client {
 
     private IoSession ioSession;
 
+//    private ConcurrentHashMap<String,ResponseFuture> futureStore = new ConcurrentHashMap<String,ResponseFuture>();
+
+    /**
+     * 默认是3s超时,这里默认5sfuture过期
+     */
+    Cache<String,ResponseFuture> futureStore = CacheBuilder.newBuilder().maximumSize(1000).expireAfterWrite(5, TimeUnit.SECONDS).build();
+
     /**
      * 这里需要优化.针对同一个接口的同一个方法,只能同步顺序执行
      * @return
      */
     @Override
-    public synchronized Object invoke(HSFRequest request, long timeoutms) {
-        responseFuture = new ResponseFuture();
+    public Object invoke(HSFRequest request, long timeoutms) {
+        ResponseFuture future = new ResponseFuture();
+        futureStore.put(request.getRequestId(), future);
+        String arg = (String) request.getMethodArgs()[0];
+        if(arg.equals("shaoman")){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
         ioSession.write(request);
         try {
-            return responseFuture.get(timeoutms);
+            return future.get(timeoutms);
         } catch (Exception e) {
             logger.error("执行方法失败~",e);
             return null;
+        } finally {
+            futureStore.invalidate(request.getRequestId());
         }
     }
 
     @Override
-    public void putResponse(Object response) {
-        responseFuture.setResponse(response);
+    public void putResponse(String requestId,Object response) {
+        ResponseFuture future = futureStore.getIfPresent(requestId);
+        if(future == null){
+            logger.error("执行方法超时");
+            return;
+        }
+        future.setResponse(response);
     }
 }

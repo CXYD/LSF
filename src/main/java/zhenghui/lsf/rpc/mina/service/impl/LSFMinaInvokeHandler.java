@@ -29,15 +29,15 @@ public class LSFMinaInvokeHandler extends IoHandlerAdapter{
         HSFResponse response = (HSFResponse) message;
         if (response.isError()) {
             logger.error("调用异常." + response.getErrorMsg());
-            getClient(session).putResponse(obj);
+            getClient(session).putResponse(response.getRequestId(),obj);
         } else {
-            getClient(session).putResponse(response.getAppResponse());
+            getClient(session).putResponse(response.getRequestId(),response.getAppResponse());
         }
     }
 
     @Override
     public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-        getClient(session).putResponse(obj);
+//        getClient(session).putResponse(obj);
         throw new Exception(cause);
     }
 
